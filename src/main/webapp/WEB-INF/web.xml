@@ -1,25 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
-    <filter>
-        <filter-name>ObjectifyFilter</filter-name>
-        <filter-class>com.googlecode.objectify.ObjectifyFilter</filter-class>
-    </filter>
     <servlet>
-        <servlet-name>JerseyApplication</servlet-name>
-        <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
-        <init-param>
-            <param-name>jersey.config.server.provider.packages</param-name>
-            <param-value>org.gdg.lille</param-value>
-        </init-param>
-        <load-on-startup>1</load-on-startup>
+        <servlet-name>hook</servlet-name>
+        <servlet-class>org.gdg.lille.GithubHookResource</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>stop</servlet-name>
+        <servlet-class>org.gdg.lille.StopInstanceCron</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>JerseyApplication</servlet-name>
-        <url-pattern>/*</url-pattern>
+        <servlet-name>hook</servlet-name>
+        <url-pattern>/github</url-pattern>
     </servlet-mapping>
-    <filter-mapping>
-        <filter-name>ObjectifyFilter</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
+    <servlet-mapping>
+        <servlet-name>stop</servlet-name>
+        <url-pattern>/stop</url-pattern>
+    </servlet-mapping>
 </web-app>

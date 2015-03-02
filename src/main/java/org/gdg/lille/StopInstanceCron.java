@@ -12,8 +12,7 @@ import java.security.GeneralSecurityException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class GithubHookResource extends HttpServlet {
-
+public class StopInstanceCron extends HttpServlet {
     private Logger logger = Logger.getLogger(GithubHookResource.class.getSimpleName());
 
     @Override
@@ -27,17 +26,10 @@ public class GithubHookResource extends HttpServlet {
 
             logger.log(Level.INFO, "Current Status :" + instance.getStatus());
 
-            if (ComputeEngineUtil.CE_STATUS_TERMINATED.equals(instance.getStatus())) {
-                Compute.Instances.Start start = instances.start(computeEngineUtil.getProjectId(), computeEngineUtil.getZoneName(), instance.getName());
-                start.execute();
-                while (!ComputeEngineUtil.CE_STATUS_RUNNING.equals(instance.getStatus())) {
-                    instance = getInstance.execute();
-                    logger.log(Level.INFO, "Instance starting !");
-                    Thread.sleep(1000);
-                }
+            if (ComputeEngineUtil.CE_STATUS_RUNNING.equals(instance.getStatus())) {
+                instances.stop(computeEngineUtil.getProjectId(), computeEngineUtil.getZoneName(), instance.getName()).execute();
             }
-            logger.log(Level.INFO, "Instance started !");
-        } catch (GeneralSecurityException | InterruptedException e) {
+        } catch (GeneralSecurityException e) {
             logger.log(Level.SEVERE, e.getLocalizedMessage());
         }
     }

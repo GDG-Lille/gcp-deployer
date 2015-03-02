@@ -13,21 +13,8 @@
     <properties>
         <appengine.app.version>1</appengine.app.version>
         <appengine.target.version>1.9.15</appengine.target.version>
-        <jersey.version>2.15</jersey.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.glassfish.jersey</groupId>
-                <artifactId>jersey-bom</artifactId>
-                <version>${jersey.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 
     <dependencies>
         <!-- Compile/runtime dependencies -->
@@ -48,11 +35,6 @@
             <version>1.2</version>
         </dependency>
         <dependency>
-            <groupId>com.googlecode.objectify</groupId>
-            <artifactId>objectify</artifactId>
-            <version>5.1.4</version>
-        </dependency>
-        <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
             <version>4.3.3</version>
@@ -69,16 +51,24 @@
         </dependency>
 
         <dependency>
-            <groupId>org.apache.jclouds</groupId>
-            <artifactId>jclouds-all</artifactId>
-            <version>1.8.1</version>
+            <groupId>com.google.apis</groupId>
+            <artifactId>google-api-services-compute</artifactId>
+            <version>v1-rev49-1.19.1</version>
         </dependency>
-
-        <!-- Jersey -->
         <dependency>
-            <groupId>org.glassfish.jersey.containers</groupId>
-            <artifactId>jersey-container-servlet-core</artifactId>
-            <version>${jersey.version}</version>
+            <groupId>com.google.api-client</groupId>
+            <artifactId>google-api-client-jackson2</artifactId>
+            <version>1.19.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.api-client</groupId>
+            <artifactId>google-api-client-appengine</artifactId>
+            <version>1.19.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.oauth-client</groupId>
+            <artifactId>google-oauth-client-appengine</artifactId>
+            <version>1.19.0</version>
         </dependency>
 
         <!-- Logging -->
@@ -117,12 +107,6 @@
             <groupId>com.google.appengine</groupId>
             <artifactId>appengine-api-stubs</artifactId>
             <version>${appengine.target.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.jersey.test-framework.providers</groupId>
-            <artifactId>jersey-test-framework-provider-grizzly2</artifactId>
-            <version>${jersey.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
