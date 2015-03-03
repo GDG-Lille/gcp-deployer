@@ -29,6 +29,8 @@ public class StopInstanceCron extends HttpServlet {
             if (ComputeEngineUtil.CE_STATUS_RUNNING.equals(instance.getStatus())) {
                 instances.stop(computeEngineUtil.getProjectId(), computeEngineUtil.getZoneName(), instance.getName()).execute();
             }
+
+            resp.setStatus(204);
         } catch (GeneralSecurityException e) {
             logger.log(Level.SEVERE, e.getLocalizedMessage());
         }

@@ -4,5 +4,6 @@
         <url>/stop</url>
         <description>Stop the cron</description>
         <schedule>every 15 minutes</schedule>
+        <target>jenkins</target>
     </cron>
 </cronentries>
