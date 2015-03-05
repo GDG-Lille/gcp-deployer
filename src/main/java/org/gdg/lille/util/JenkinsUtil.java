@@ -34,19 +34,6 @@ public class JenkinsUtil {
     private Logger logger = Logger.getLogger(JenkinsUtil.class.getSimpleName());
     private static JenkinsUtil INSTANCE;
 
-    private final HttpClient httpClient;
-    private final CredentialsProvider provider;
-
-    private JenkinsUtil() {
-        provider = new BasicCredentialsProvider();
-        UsernamePasswordCredentials credentials = new UsernamePasswordCredentials(properties.getProperty("jenkins.user"), properties.getProperty("jenkins.token"));
-        provider.setCredentials(AuthScope.ANY, credentials);
-        httpClient = HttpClientBuilder
-                .create()
-                .setDefaultCredentialsProvider(provider)
-                .build();
-    }
-
     public static JenkinsUtil getInstance() throws IOException {
         if (INSTANCE == null) {
             properties.load(JenkinsUtil.class.getResourceAsStream("/config.properties"));
@@ -86,6 +73,9 @@ public class JenkinsUtil {
     }
 
     public void launchJob(String jobName, Instance instance) throws IOException, InterruptedException {
+        // Waiting 10 seconds to permit the launch of Jenkins
+        Thread.sleep(10000);
+
         String jenkinsUrl = "http://" + instance.getNetworkInterfaces().get(0).getAccessConfigs().get(0).getNatIP() + "/jenkins";
         logger.log(Level.INFO, "Jenkins URL : " + jenkinsUrl);
 
