@@ -3,11 +3,11 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
     <servlet>
         <servlet-name>hook</servlet-name>
-        <servlet-class>org.gdg.lille.GithubHookResource</servlet-class>
+        <servlet-class>org.gdg.lille.GithubHookServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>stop</servlet-name>
-        <servlet-class>org.gdg.lille.StopInstanceCron</servlet-class>
+        <servlet-class>org.gdg.lille.StopInstanceCronServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>hook</servlet-name>
