@@ -19,35 +19,34 @@ public class GithubHookServlet extends HttpServlet {
     private Logger logger = Logger.getLogger(GithubHookServlet.class.getSimpleName());
 
     @Override
-    protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        Thread thread = ThreadManager.createBackgroundThread(new Runnable() {
-            public void run() {
-                try {
-                    ComputeEngineUtil computeEngineUtil = ComputeEngineUtil.getInstance();
-                    Instance instance = computeEngineUtil.getJenkinsInstance();
+        final String jobName = req.getParameter("job");
+        if (jobName != null) {
+            Thread thread = ThreadManager.createBackgroundThread(new Runnable() {
+                public void run() {
+                    try {
+                        ComputeEngineUtil computeEngineUtil = ComputeEngineUtil.getInstance();
+                        Instance instance = computeEngineUtil.getJenkinsInstance();
 
-                    logger.log(Level.INFO, "Current Status :" + instance.getStatus());
+                        logger.log(Level.INFO, "Current Status :" + instance.getStatus());
 
-                    if (ComputeEngineUtil.CE_STATUS_TERMINATED.equals(instance.getStatus())) {
-                        computeEngineUtil.startJenkinsInstance();
-                        while (!ComputeEngineUtil.CE_STATUS_RUNNING.equals(instance.getStatus())) {
-                            instance = computeEngineUtil.getJenkinsInstance();
-                            logger.log(Level.INFO, "Instance starting !");
-                            Thread.sleep(1000);
+                        if (ComputeEngineUtil.CE_STATUS_TERMINATED.equals(instance.getStatus())) {
+                            computeEngineUtil.startJenkinsInstance();
+                            while (!ComputeEngineUtil.CE_STATUS_RUNNING.equals(instance.getStatus())) {
+                                instance = computeEngineUtil.getJenkinsInstance();
+                                logger.log(Level.INFO, "Instance starting !");
+                                Thread.sleep(1000);
+                            }
                         }
-                    }
-                    logger.log(Level.INFO, "Instance started !");
-                    String jobName = req.getParameter("job");
-                    if (jobName != null) {
+                        logger.log(Level.INFO, "Instance started !");
                         JenkinsUtil.getInstance().launchJob(jobName, instance);
+                    } catch (GeneralSecurityException | InterruptedException | IOException e) {
+                        logger.log(Level.SEVERE, e.getLocalizedMessage());
                     }
-                } catch (GeneralSecurityException | InterruptedException | IOException e) {
-                    logger.log(Level.SEVERE, e.getLocalizedMessage());
                 }
-            }
-        });
-
-        thread.start();
+            });
+            thread.start();
+        }
     }
 }
