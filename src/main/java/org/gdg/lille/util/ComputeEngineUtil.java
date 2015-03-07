@@ -8,7 +8,7 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.compute.Compute;
 import com.google.api.services.compute.ComputeScopes;
 import com.google.api.services.compute.model.Instance;
-import org.gdg.lille.GithubHookServlet;
+import org.gdg.lille.tasks.StartJobTask;
 
 import java.io.File;
 import java.io.IOException;
@@ -76,7 +76,7 @@ public class ComputeEngineUtil {
     }
 
     private Credential authorize() throws GeneralSecurityException, IOException {
-        URL url = GithubHookServlet.class.getResource("/" + properties.getProperty("instance.p12"));
+        URL url = StartJobTask.class.getResource("/" + properties.getProperty("instance.p12"));
         File f;
         try {
             f = new File(url.toURI());

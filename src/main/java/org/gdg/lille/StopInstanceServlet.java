@@ -11,18 +11,13 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class GithubHookServlet extends HttpServlet {
+public class StopInstanceServlet extends HttpServlet {
 
-    private Logger logger = Logger.getLogger(GithubHookServlet.class.getSimpleName());
+    private Logger logger = Logger.getLogger(StopInstanceServlet.class.getSimpleName());
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        final String jobName = req.getParameter("job");
-        logger.log(Level.INFO, "launching startjob task, with job name : " + jobName);
-        if (jobName != null) {
-            QueueFactory.getDefaultQueue().addAsync(TaskOptions.Builder.withUrl("/startjobtask").param("job", jobName));
-        }
-
+        logger.log(Level.INFO, "launching stop task");
+        QueueFactory.getDefaultQueue().addAsync(TaskOptions.Builder.withUrl("/stoptask"));
     }
 }

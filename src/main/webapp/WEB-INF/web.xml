@@ -2,15 +2,31 @@
 <web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
     <servlet>
-        <servlet-name>hook</servlet-name>
+        <servlet-name>startjobtask</servlet-name>
+        <servlet-class>org.gdg.lille.tasks.StartJobTask</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>stoptask</servlet-name>
+        <servlet-class>org.gdg.lille.tasks.StopInstanceTask</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>github</servlet-name>
         <servlet-class>org.gdg.lille.GithubHookServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>stop</servlet-name>
-        <servlet-class>org.gdg.lille.StopInstanceCronServlet</servlet-class>
+        <servlet-class>org.gdg.lille.StopInstanceServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>hook</servlet-name>
+        <servlet-name>startjobtask</servlet-name>
+        <url-pattern>/startjobtask</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>stoptask</servlet-name>
+        <url-pattern>/stoptask</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>github</servlet-name>
         <url-pattern>/github</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
