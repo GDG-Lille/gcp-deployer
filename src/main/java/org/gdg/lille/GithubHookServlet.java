@@ -16,13 +16,20 @@ public class GithubHookServlet extends HttpServlet {
     private Logger logger = Logger.getLogger(GithubHookServlet.class.getSimpleName());
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        startTask(req);
+    }
 
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        startTask(req);
+    }
+
+    private void startTask(HttpServletRequest req) {
         final String jobName = req.getParameter("job");
         logger.log(Level.INFO, "launching startjob task, with job name : " + jobName);
         if (jobName != null) {
             QueueFactory.getDefaultQueue().addAsync(TaskOptions.Builder.withUrl("/startjobtask").param("job", jobName));
         }
-
     }
 }
