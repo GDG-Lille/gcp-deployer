@@ -58,7 +58,7 @@ public class JenkinsUtil {
         return false;
     }
 
-    public void launchJob(String jobName, Instance instance) throws IOException, InterruptedException {
+    public void launchJob(String jobName, Instance instance) throws InterruptedException {
         // Waiting 10 seconds to permit the launch of Jenkins
         Thread.sleep(10000);
 
@@ -97,7 +97,7 @@ public class JenkinsUtil {
             } else {
                 logger.log(Level.WARNING, "The job " + jobName + " does not exist.");
             }
-        } catch (SocketException exception) {
+        } catch (IOException exception) {
             logger.log(Level.INFO, "Jenkins not started ? : " + exception.getMessage());
             launchJob(jobName, instance);
         }
